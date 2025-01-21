@@ -12,7 +12,7 @@ import jakarta.persistence.Enumerated;
 import lombok.Value;
 
 @Value
-public class PetClienteDetalhadeResponse {
+public class PetClienteDetalheResponse {
 	private UUID idPet;
 	@Column(columnDefinition = "uuid", name = "idClienteTutor", nullable = false)
 	private UUID idClienteTutor;
