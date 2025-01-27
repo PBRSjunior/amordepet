@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import br.com.amordepetba.cliente_pet.cliente.application.service.ClienteService;
+import br.com.amordepetba.cliente_pet.pet.application.api.PetAlteracaoRequest;
 import br.com.amordepetba.cliente_pet.pet.application.api.PetClienteDetalheResponse;
 import br.com.amordepetba.cliente_pet.pet.application.api.PetClienteListResponse;
 import br.com.amordepetba.cliente_pet.pet.application.api.PetRequest;
@@ -57,6 +58,17 @@ public class PetApplicationService implements PetService {
 		petRepository.deletaPet(pet);
 		log.info("[finaliza]PetApplicationService - deletePetClienteComId");
 
+	}
+
+	@Override
+	public void alteraPetClienteComId(UUID idCliente, UUID idPet, @Valid PetAlteracaoRequest petAlteracaoRequest) {
+		log.info("[inicia]PetApplicationService - alteraPetClienteComId");
+		clienteService.buscaClienteAtravesId(idCliente);
+		Pet pet = petRepository.buscaPetPeloId(idPet);
+		pet.altera(petAlteracaoRequest);
+		petRepository.salvaPet(pet);
+		log.info("[inicia]PetApplicationService - alteraPetClienteComId");
+		
 	}
 
 }
