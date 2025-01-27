@@ -14,12 +14,14 @@ import br.com.amordepetba.cliente_pet.pet.domain.Pet;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class PetApplicationService implements PetService {
 	private final ClienteService clienteService;
 	private final PetRepository petRepository;
+
 	@Override
 	public PetResponse criaPet(UUID idCliente, @Valid PetRequest petRequest) {
 		log.info("[inicia]PetApplicationService - criaPet");
@@ -28,6 +30,7 @@ public class PetApplicationService implements PetService {
 		log.info("[finaliza]nPetApplicationService - criaPet");
 		return new PetResponse(pet.getIdPet());
 	}
+
 	@Override
 	public List<PetClienteListResponse> buscaPetsDoClienteComID(UUID idCliente) {
 		log.info("[inicia]PetApplicationService - buscaPetsDoClienteComID");
@@ -36,6 +39,7 @@ public class PetApplicationService implements PetService {
 		log.info("[finaliza]PetApplicationService - buscaPetsDoClienteComID");
 		return PetClienteListResponse.converte(petsDoCliente);
 	}
+
 	@Override
 	public PetClienteDetalheResponse buscaPetsDoClienteComID(UUID idCliente, UUID idPet) {
 		log.info("[inicia]PetApplicationService - buscaPetsDoClienteComID");
@@ -44,11 +48,15 @@ public class PetApplicationService implements PetService {
 		log.info("[finaliza]PetApplicationService - buscaPetsDoClienteComID");
 		return new PetClienteDetalheResponse(pet);
 	}
+
 	@Override
 	public void deletePetClienteComId(UUID idCliente, UUID idPet) {
 		log.info("[inicia]PetApplicationService - deletePetClienteComId");
+		clienteService.buscaClienteAtravesId(idCliente);
+		Pet pet = petRepository.buscaPetPeloId(idPet);
+		petRepository.deletaPet(pet);
 		log.info("[finaliza]PetApplicationService - deletePetClienteComId");
-		
+
 	}
 
 }
